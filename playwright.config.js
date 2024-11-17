@@ -11,6 +11,10 @@ const { defineConfig, devices } = require('@playwright/test');
  * @see https://playwright.dev/docs/test-configuration
  */
 module.exports = defineConfig({
+  timeout: 30 * 1000,
+  expect: {
+      timeout: 5000
+  },
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -28,25 +32,41 @@ module.exports = defineConfig({
     // baseURL: 'http://127.0.0.1:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'on',
+    screenshot: 'on',
+    launchOptions: {
+      // 1
+      args: ["--start-maximized"],
+    },
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
+      use: { 
+        // ...devices['Desktop Chrome'],
+        headless: false,
+        viewport: null
+       },
+     },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    //  {
+    //    name: 'firefox',
+    //     use: { ...devices['Desktop Firefox'],
+    //     headless: false
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    //      },
+       
+    //   },
+
+    //  {
+    //    name: 'webkit',
+    //    use: { ...devices['Desktop Safari'],
+    //     headless: false
+
+    //     },
+    //  },
 
     /* Test against mobile viewports. */
     // {
